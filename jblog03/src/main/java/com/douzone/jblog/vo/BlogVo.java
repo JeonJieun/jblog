@@ -24,6 +24,10 @@ public class BlogVo {
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
+	@Override
+	public String toString() {
+		return "BlogVo [id=" + id + ", title=" + title + ", logo=" + logo + "]";
+	}
 	
 	
 	

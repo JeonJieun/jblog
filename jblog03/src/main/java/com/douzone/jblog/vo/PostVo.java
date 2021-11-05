@@ -37,6 +37,11 @@ public class PostVo {
 	public void setCategoryNo(Long categoryNo) {
 		this.categoryNo = categoryNo;
 	}
+	@Override
+	public String toString() {
+		return "PostVo [no=" + no + ", title=" + title + ", contents=" + contents + ", regDate=" + regDate
+				+ ", categoryNo=" + categoryNo + "]";
+	}
 	
 	
 }

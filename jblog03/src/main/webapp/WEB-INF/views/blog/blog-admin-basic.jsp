@@ -15,11 +15,11 @@
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<c:import url="/WEB-INF/views/includes/blog-admin-menu.jsp" />
-				<form action="" method="post">
+				<form action="${pageContext.request.contextPath }/admin/basic" method="post" enctype="multipart/form-data">
 	 		      	<table class="admin-config">
 			      		<tr>
 			      			<td class="t">블로그 제목</td>
-			      			<td><input type="text" size="40" name="title">${vo.title }</td>
+			      			<td><input type="text" size="40" name="title" value=${vo.title }></td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">로고이미지</td>
