@@ -12,7 +12,7 @@
 
 	<select id="findByIdAndPassword" parameterType="map" resultType="uservo">
 		<![CDATA[
-		select id, name, password, join_date as joinDate
+		select id, name, password, date_format(join_date, '%Y/%m/%d %H:%i:%s') as joinDate
 		from user
 		where id=#{id }
 		and password=#{password }
@@ -21,7 +21,7 @@
 
 	<select id="findById" parameterType="string" resultType="uservo">
 		<![CDATA[
-		select id, name, password, join_date as joinDate
+		select id, name, password, date_format(join_date, '%Y/%m/%d %H:%i:%s') as joinDate
 		from user
 		where id=#{id }
 		]]>

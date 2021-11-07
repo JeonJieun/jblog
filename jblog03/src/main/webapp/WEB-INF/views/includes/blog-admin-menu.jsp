@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script>
 //DOM Level 1 Event 처리: HTML element의 event 속성에 자바스크립트 코드를 사용하는 방법
 //2) JavaScript Code(DOM API) 로만 작성하기

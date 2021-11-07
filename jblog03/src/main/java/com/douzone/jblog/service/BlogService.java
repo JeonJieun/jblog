@@ -21,14 +21,13 @@ public class BlogService {
 	public BlogVo getBlog(String id) {
 		return blogRepository.findById(id);
 	}
-	
-	public List<BlogVo> getBlog(String which, String kwd) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public boolean update(BlogVo vo) {
-		return blogRepository.update(vo);
+
+	public boolean update(BlogVo oriBlogVo, BlogVo newBlogVo) {
+		if(newBlogVo.getTitle()==null || newBlogVo.getTitle().replaceAll(" ", "").equals("")) {
+			newBlogVo.setTitle(oriBlogVo.getTitle());
+		}
+		
+		return blogRepository.update(newBlogVo);		
 	}
 	
 }

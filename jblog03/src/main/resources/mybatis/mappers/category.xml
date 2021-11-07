@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="category">
-
+	<insert id="insert" parameterType="categoryvo">
+		<![CDATA[
+		insert
+		into category
+		values (null, #{name }, #{desc }, #{blogId})
+		]]>
+	</insert>
+	
+	<select id="findByNo" parameterType="long" resultType="categoryvo">
+		<![CDATA[
+		select c.no, c.name, c.desc, c.blog_id as blogId
+		from category c
+		where c.no=#{no }
+		]]>
+	</select>
+	
+	<select id="findByBlogId" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+		select c.no, c.name, c.desc, c.blog_id as blogId
+		from category c
+		where c.blog_id=#{blogId }
+		order by c.no
+		]]>
+	</select>
+	
+	<select id="countByName" parameterType="categoryvo" resultType="Long">
+		<![CDATA[
+		select count(*)
+		from category
+		where blog_id=#{blogId }
+		and name=#{name }
+		]]>
+	</select>
+	
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+		delete 
+		from category 
+		where no=#{no }
+		]]>
+	</delete>
+	
 </mapper>

@@ -26,18 +26,9 @@
 	</select>
 	
 	<update id="update" parameterType="blogvo">
-		<choose>
-			<when test="logo == null">
-				<![CDATA[
-				update blog set title=#{title } where id=#{id }
-				]]>
-			</when>
-			<otherwise>
-				<![CDATA[
+		<![CDATA[
 				update blog set title=#{title }, logo=#{logo } where id=#{id }			
-				]]>
-			</otherwise>
-		</choose>
+		]]>
 	</update>
 	
 	

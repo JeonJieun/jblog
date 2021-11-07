@@ -14,7 +14,11 @@ public class PostRepository {
 	private SqlSession sqlSession;
 	
 	public List<PostVo> findAll() throws PostRepositoryException {
-		return sqlSession.selectList("guestbook.findAll");
+		return sqlSession.selectList("post.findAll");
+	}
+	
+	public Long countByCategoryNo(Long categoryNo) {
+		return sqlSession.selectOne("post.countByCategoryNo", categoryNo);
 	}
 	
 	public boolean delete(PostVo vo) {

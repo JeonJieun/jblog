@@ -9,5 +9,9 @@ import com.douzone.jblog.repository.PostRepository;
 public class PostService {
 	@Autowired
 	private PostRepository postRepository;
+	
+	public Long getPost(Long categoryNo) {
+		return postRepository.countByCategoryNo(categoryNo);
+	}
 
 }

@@ -23,12 +23,12 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findByIdAndPassword", map);
 	}
 	
-	public boolean insert(UserVo vo) {
+	public boolean insert(UserVo vo) throws UserRepositoryException {
 		int count = sqlSession.insert("user.insert", vo);
 		return count == 1;
 	}
 
-	public UserVo findById(String id) {
+	public UserVo findById(String id) throws UserRepositoryException {
 		return sqlSession.selectOne("user.findById", id);
 	}
 
