@@ -17,6 +17,15 @@
 		]]>
 	</select>
 	
+	<select id="findByName" parameterType="categoryvo" resultType="Long">
+		<![CDATA[
+		select no
+		from category
+		where blog_id=#{blogId }
+		and name=#{name }
+		]]>
+	</select>
+	
 	<select id="findByBlogId" parameterType="string" resultType="categoryvo">
 		<![CDATA[
 		select c.no, c.name, c.desc, c.blog_id as blogId

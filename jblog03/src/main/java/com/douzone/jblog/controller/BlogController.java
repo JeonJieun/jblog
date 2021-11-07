@@ -21,6 +21,7 @@ import com.douzone.jblog.service.FileUploadService;
 import com.douzone.jblog.service.PostService;
 import com.douzone.jblog.vo.BlogVo;
 import com.douzone.jblog.vo.CategoryVo;
+import com.douzone.jblog.vo.PostVo;
 import com.douzone.jblog.vo.UserVo;
 
 
@@ -132,6 +133,21 @@ public class BlogController {
 		model.addAttribute("blogVo", blogVo);
 		
 		return "blog/blog-admin-write";
+	}
+	
+	@Auth
+	@RequestMapping(value={"/admin/write"}, method=RequestMethod.POST)
+	public String postAdd(Model model,
+			@AuthUser UserVo authUser,
+			PostVo postVo,
+			String category) {
+		CategoryVo categoryVo = new CategoryVo();
+		categoryVo.setBlogId(authUser.getId());
+		categoryVo.setName(category);
+		
+		postService.insert(postVo, categoryVo);
+		
+		return "redirect:/" + authUser.getId();
 	}
 	
 }

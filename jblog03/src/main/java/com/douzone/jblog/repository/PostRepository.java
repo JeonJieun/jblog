@@ -22,13 +22,13 @@ public class PostRepository {
 	}
 	
 	public boolean delete(PostVo vo) {
-		int count = sqlSession.delete("guestbook.delete", vo);
+		int count = sqlSession.delete("post.delete", vo);
 		return count == 1;		
 
 	}
 	
 	public boolean insert(PostVo vo) {
-		int count = sqlSession.insert("guestbook.insert", vo);
+		int count = sqlSession.insert("post.insert", vo);
 		System.out.println(vo);
 		return count == 1;
 	}

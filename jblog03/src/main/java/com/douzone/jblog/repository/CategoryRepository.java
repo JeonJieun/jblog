@@ -26,6 +26,10 @@ public class CategoryRepository {
 		return sqlSession.selectOne("category.findByNo", no);
 	}
 	
+	public Long findByName(CategoryVo vo) throws CategoryRepositoryException {
+		return sqlSession.selectOne("category.findByName", vo);
+	}
+	
 	public List<CategoryVo> findByBlogId(String blogId) throws CategoryRepositoryException {
 		return sqlSession.selectList("category.findByBlogId", blogId);
 	}
