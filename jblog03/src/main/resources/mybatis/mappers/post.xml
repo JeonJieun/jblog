@@ -17,6 +17,35 @@
 		where category_no=#{categoryNo }
 		]]>
 	</select>
-
+	
+	<select id="findAll" parameterType="string" resultType="postvo">
+		<![CDATA[
+		select a.no, a.title, a.contents, date_format(a.reg_date, '%Y/%m/%d') as regDate, a.category_no as categoryNo, c.blog_id as blogId
+		from post a, category c
+		where c.blog_id=#{blogId }
+		and c.no=a.category_no
+		order by a.reg_date desc
+		]]>
+	</select>
+	
+	<select id="findByCategoryNo" parameterType="postvo" resultType="postvo">
+		<![CDATA[
+		select a.no, a.title, a.contents, date_format(a.reg_date, '%Y/%m/%d') as regDate, a.category_no as categoryNo, c.blog_id as blogId
+		from post a, category c
+		where c.blog_id=#{blogId }
+		and c.no=a.category_no
+		and a.category_no=#{categoryNo }
+		order by a.reg_date desc
+		]]>
+	</select>
+	
+	
+	<select id="findByNo" parameterType="Long" resultType="postvo">
+		<![CDATA[
+		select no, title, contents, date_format(reg_date, '%Y/%m/%d') as regDate, category_no as categoryNo
+		from post
+		where no=#{postNo }
+		]]>
+	</select>
 
 </mapper>

@@ -6,7 +6,7 @@
 		<h2>카테고리</h2>
 		<ul>
 		<c:forEach items='${cList }' var='categoryVo' varStatus='status'>
-			<li><a href="">${categoryVo.name }</a></li>
+			<li><a href="${pageContext.request.contextPath }/${blogVo.id }/${categoryVo.no }/0">${categoryVo.name }</a></li>
 		</c:forEach>
 		</ul>
 	</div>

@@ -30,7 +30,7 @@
 						<td>${categoryVo.name }</td>
 						<td>${categoryVo.postCount }</td>
 						<td>${categoryVo.desc }</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
+						<td><a href="${pageContext.request.contextPath }/${authUser.id }/admin/delete"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a></td>
 					</tr>
 					</c:forEach>					  
 

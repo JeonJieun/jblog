@@ -26,7 +26,7 @@ import com.douzone.jblog.vo.UserVo;
 
 
 @Controller
-@RequestMapping("/{id:(?!main|assets|user|admin).*}")
+@RequestMapping("/{id:(?!main|assets|user|blog).*}") // img_mapping = /blog/logo/라서
 public class BlogController {
 	
 	@Autowired
@@ -41,15 +41,20 @@ public class BlogController {
 	@Autowired
 	private FileUploadService fileUploadService;
 	
-	@RequestMapping({""})
+	@RequestMapping({"", "/{categoryNo}", "/{categoryNo}/{postNo}", "//{postNo}"})
 	public String index(Model model,
-			@AuthUser UserVo authUser,
-			@PathVariable String id) {
+			@PathVariable String id,
+			@PathVariable(value = "categoryNo", required = false) Long categoryNo,
+			@PathVariable(value = "postNo", required = false) Long postNo) {
+		
 		BlogVo blogVo = blogService.getBlog(id);
 		model.addAttribute("blogVo", blogVo);
-		
-		List<CategoryVo> cList = categoryService.getCategory(authUser.getId());
+		List<CategoryVo> cList = categoryService.getCategory(id);
 		model.addAttribute("cList", cList);
+		List<PostVo> pList = postService.getpList(id, categoryNo);
+		model.addAttribute("pList", pList);
+		PostVo post = postService.getPost(pList, postNo);
+		model.addAttribute("post", post);
 		
 		return "blog/blog-main";
 	}
@@ -59,7 +64,6 @@ public class BlogController {
 	public String basic(Model model,
 			@AuthUser UserVo authUser) {
 		BlogVo blogVo = blogService.getBlog(authUser.getId());
-
 		model.addAttribute("blogVo", blogVo);
 		
 		return "blog/blog-admin-basic";
@@ -77,17 +81,13 @@ public class BlogController {
 		
 		if(file.isEmpty()) {
 			newBlogVo.setLogo(oriBlogVo.getLogo());
-		}
-		
-		else {
+		}else {
 			String logo = fileUploadService.restoreImage(file);
 			newBlogVo.setLogo(logo);
 		}
 		
 		blogService.update(oriBlogVo, newBlogVo);
-		
-		List<BlogVo> list = blogService.getBlog();
-		servletContext.setAttribute("list", list);
+		servletContext.setAttribute("list", blogService.getBlog());
 		
 		return "redirect:/" + authUser.getId();
 	}
@@ -99,7 +99,7 @@ public class BlogController {
 		
 		List<CategoryVo> cList = categoryService.getCategory(authUser.getId());
 		for(CategoryVo categoryVo : cList) {
-			categoryVo.setPostCount(postService.getPost(categoryVo.getNo()));
+			categoryVo.setPostCount(postService.getCount(categoryVo.getNo()));
 		}
 		model.addAttribute("cList", cList);
 		
@@ -114,9 +114,8 @@ public class BlogController {
 	public String categoryAdd(Model model,
 			@AuthUser UserVo authUser,
 			CategoryVo categoryVo) {
-		categoryVo.setBlogId(authUser.getId());
-		
-		categoryService.insert(categoryVo);
+
+		categoryService.insert(categoryVo, authUser.getId());
 		
 		return "redirect:/" + authUser.getId() + "/admin/category";
 	}
@@ -141,13 +140,10 @@ public class BlogController {
 			@AuthUser UserVo authUser,
 			PostVo postVo,
 			String category) {
-		CategoryVo categoryVo = new CategoryVo();
-		categoryVo.setBlogId(authUser.getId());
-		categoryVo.setName(category);
 		
-		postService.insert(postVo, categoryVo);
+		postService.insert(postVo, authUser.getId(), category);
 		
 		return "redirect:/" + authUser.getId();
 	}
-	
+
 }
