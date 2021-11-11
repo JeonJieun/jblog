@@ -31,7 +31,7 @@
 		select c.no, c.name, c.desc, c.blog_id as blogId
 		from category c
 		where c.blog_id=#{blogId }
-		order by c.no desc
+		order by c.no
 		]]>
 	</select>
 	
