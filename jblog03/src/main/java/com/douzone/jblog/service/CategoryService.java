@@ -14,10 +14,10 @@ public class CategoryService {
 	CategoryRepository categoryRepository;
 	
 	public Boolean insert(CategoryVo categoryVo, String id) {
+		categoryVo.setBlogId(id);
 		if( categoryVo.getName()!=null && 
 			!(categoryVo.getName().replaceAll(" ", "").equals("")) && 
 			categoryRepository.countByName(categoryVo)==0 ) {
-			categoryVo.setBlogId(id);
 			return categoryRepository.insert(categoryVo);
 		}
 		return false;
