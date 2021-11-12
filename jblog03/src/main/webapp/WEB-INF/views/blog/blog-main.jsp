@@ -22,6 +22,7 @@
 					<p>
 				</div>
 				<ul class="blog-list">
+				<c:if test="${empty categoryNo }"><p style="text-align:center">[전체 POST 목록]</p></c:if>
 				<c:forEach items='${pList }' var='postVo' varStatus='status'>
 					<li><a href="${pageContext.request.contextPath }/${blogVo.id }/${categoryNo }/${postVo.no }">${postVo.title }</a> <span>${postVo.regDate }</span> </li>
 				</c:forEach>

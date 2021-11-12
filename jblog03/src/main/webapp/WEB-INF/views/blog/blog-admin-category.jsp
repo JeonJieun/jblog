@@ -8,6 +8,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<script type="text/javascript" src="${pageContext.request.contextPath }/jquery/jquery-1.9.0.js"></script>
+<script>
+$(function(){
+	$("#delete").click(function(){
+		$.ajax({
+			url: "${pageContext.request.contextPath }/api/user/10",
+			type: 'delete',          // 요청 method
+			dataType: 'json',        // 받을 포맷
+			contentType: 'application/x-www-form-urlencoded',
+			data: "password=1234",
+			success: function(response) {
+				console.log(response);
+			}
+		});
+	});
+});
+</script>
 </head>
 <body>
 	<div id="container">
@@ -30,7 +47,7 @@
 						<td>${categoryVo.name }</td>
 						<td>${categoryVo.postCount }</td>
 						<td>${categoryVo.desc }</td>
-						<td><a href="${pageContext.request.contextPath }/${authUser.id }/admin/delete"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a></td>
+						<td><button id="delete"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></button></td>
 					</tr>
 					</c:forEach>					  
 
