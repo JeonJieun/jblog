@@ -7,12 +7,15 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.douzone.jblog.dto.JsonResult;
 import com.douzone.jblog.security.Auth;
 import com.douzone.jblog.security.AuthUser;
 import com.douzone.jblog.service.BlogService;
@@ -147,13 +150,15 @@ public class BlogController {
 	}
 	
 	@Auth
-	@RequestMapping({"/admin/delete"})
-	public String delete(Model model,
+	@ResponseBody
+	@DeleteMapping({"/admin/delete/{no}"})
+	public Object delete(Model model,
 			@AuthUser UserVo authUser,
-			CategoryVo categoryVo){
-		categoryService.delete(categoryVo.getNo());
+			CategoryVo categoryVo,
+			@PathVariable("no") Long no){
+		categoryService.delete(no);
+		return JsonResult.success(no);
 		
-		return "redirect:/" + authUser.getId() + "/admin/category";
 	}
 
 }
