@@ -47,7 +47,7 @@
 	<!-- Interceptors -->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
+			<mvc:mapping path="/{id:(?!main|assets|user|blog).*}"/>
 			<bean class="com.douzone.jblog.interceptor.BlogInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>

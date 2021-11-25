@@ -49,9 +49,7 @@ public class BlogController {
 			@PathVariable String id,
 			@PathVariable(value = "categoryNo", required = false) Long categoryNo,
 			@PathVariable(value = "postNo", required = false) Long postNo) {
-		
-		BlogVo blogVo = blogService.getBlog(id);
-		model.addAttribute("blogVo", blogVo);
+
 		List<CategoryVo> cList = categoryService.getCategory(id);
 		model.addAttribute("cList", cList);
 		List<PostVo> pList = postService.getpList(id, categoryNo);
@@ -77,6 +75,7 @@ public class BlogController {
 	public String update(Model model,
 			@AuthUser UserVo authUser,
 			BlogVo newBlogVo,
+			@PathVariable String id,
 			@RequestParam("logo-file") MultipartFile file) {
 		
 		BlogVo oriBlogVo = blogService.getBlog(authUser.getId());
@@ -90,7 +89,8 @@ public class BlogController {
 		}
 		
 		blogService.update(oriBlogVo, newBlogVo);
-		servletContext.setAttribute("list", blogService.getBlog());
+		
+		servletContext.setAttribute("blogVo", blogService.getBlog(id));
 		
 		return "redirect:/" + authUser.getId();
 	}

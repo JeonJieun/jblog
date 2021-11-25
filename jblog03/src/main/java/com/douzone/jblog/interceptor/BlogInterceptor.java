@@ -1,7 +1,5 @@
 package com.douzone.jblog.interceptor;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,11 +16,18 @@ public class BlogInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		List<BlogVo> list = (List<BlogVo>)request.getServletContext().getAttribute("list");
-		if(list == null) {
-			list = blogService.getBlog();
-			request.getServletContext().setAttribute("list", list);
+		
+		BlogVo blogVo = (BlogVo)request.getServletContext().getAttribute("blogVo");
+		
+		String url = request.getServletPath();
+		String[] arrUrl = url.split("/");
+		String id = arrUrl[1];
+
+		if(blogVo == null || blogVo.getId() != id) {
+			blogVo = blogService.getBlog(id);
 		}
+		
+		request.getServletContext().setAttribute("blogVo", blogVo);
 
 		return true;
 	}
