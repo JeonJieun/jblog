@@ -49,11 +49,7 @@ public class BlogController {
 			@PathVariable String id,
 			@PathVariable(value = "categoryNo", required = false) Long categoryNo,
 			@PathVariable(value = "postNo", required = false) Long postNo) {
-		
-		BlogVo blogVo = blogService.getBlog(id);
-		model.addAttribute("blogVo", blogVo);
-		List<CategoryVo> cList = categoryService.getCategory(id);
-		model.addAttribute("cList", cList);
+
 		List<PostVo> pList = postService.getpList(id, categoryNo);
 		model.addAttribute("pList", pList);
 		PostVo post = postService.getPost(pList, postNo);
@@ -66,8 +62,6 @@ public class BlogController {
 	@RequestMapping(value={"/admin/basic"}, method=RequestMethod.GET)
 	public String basic(Model model,
 			@AuthUser UserVo authUser) {
-		BlogVo blogVo = blogService.getBlog(authUser.getId());
-		model.addAttribute("blogVo", blogVo);
 		
 		return "blog/blog-admin-basic";
 	}
@@ -90,7 +84,7 @@ public class BlogController {
 		}
 		
 		blogService.update(oriBlogVo, newBlogVo);
-		servletContext.setAttribute("list", blogService.getBlog());
+		servletContext.setAttribute("blogVo", blogService.getBlog(authUser.getId()));
 		
 		return "redirect:/" + authUser.getId();
 	}
@@ -99,15 +93,6 @@ public class BlogController {
 	@RequestMapping(value={"/admin/category"}, method=RequestMethod.GET)
 	public String category(Model model,
 			@AuthUser UserVo authUser) {
-		
-		List<CategoryVo> cList = categoryService.getCategory(authUser.getId());
-		for(CategoryVo categoryVo : cList) {
-			categoryVo.setPostCount(postService.getCount(categoryVo.getNo()));
-		}
-		model.addAttribute("cList", cList);
-		
-		BlogVo blogVo = blogService.getBlog(authUser.getId());
-		model.addAttribute("blogVo", blogVo);
 		
 		return "blog/blog-admin-category";
 	}
@@ -119,20 +104,30 @@ public class BlogController {
 			CategoryVo categoryVo) {
 
 		categoryService.insert(categoryVo, authUser.getId());
+		servletContext.setAttribute("cList", categoryService.getCategory(authUser.getId()));
 		
 		return "redirect:/" + authUser.getId() + "/admin/category";
+	}
+	
+	@Auth
+	@ResponseBody
+	@DeleteMapping({"/admin/delete/{no}"})
+	public Object delete(Model model,
+			@AuthUser UserVo authUser,
+			CategoryVo categoryVo,
+			@PathVariable("no") Long no){
+		
+		categoryService.delete(no);
+		servletContext.setAttribute("cList", categoryService.getCategory(authUser.getId()));
+		
+		return JsonResult.success(no);
+		
 	}
 	
 	@Auth
 	@RequestMapping(value={"/admin/write"}, method=RequestMethod.GET)
 	public String write(Model model,
 			@AuthUser UserVo authUser) {
-		
-		List<CategoryVo> cList = categoryService.getCategory(authUser.getId());
-		model.addAttribute("cList", cList);
-		
-		BlogVo blogVo = blogService.getBlog(authUser.getId());
-		model.addAttribute("blogVo", blogVo);
 		
 		return "blog/blog-admin-write";
 	}
@@ -149,16 +144,4 @@ public class BlogController {
 		return "redirect:/" + authUser.getId();
 	}
 	
-	@Auth
-	@ResponseBody
-	@DeleteMapping({"/admin/delete/{no}"})
-	public Object delete(Model model,
-			@AuthUser UserVo authUser,
-			CategoryVo categoryVo,
-			@PathVariable("no") Long no){
-		categoryService.delete(no);
-		return JsonResult.success(no);
-		
-	}
-
 }

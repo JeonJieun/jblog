@@ -31,6 +31,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry
 			.addInterceptor(blogInterceptor())
-			.addPathPatterns("/**");
+			.addPathPatterns("/{id:(?!main|assets|user|blog).*}");
 	}	
 }
